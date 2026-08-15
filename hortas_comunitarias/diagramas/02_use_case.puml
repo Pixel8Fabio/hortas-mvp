@@ -1,0 +1,48 @@
+@startuml
+
+left to right direction
+skinparam shadowing false
+
+actor Visitante
+actor "Usuário cadastrado" as Usuario
+actor "Responsável pela horta" as Responsavel
+actor Administrador
+actor "Serviço de mapas" as Mapa
+
+rectangle "Aplicativo de Hortas Comunitárias" {
+  usecase "Cadastrar-se e\nacessar o sistema" as UC1
+  usecase "Pesquisar e visualizar\nhortas" as UC2
+  usecase "Visualizar mapa" as UC3
+  usecase "Consultar eventos" as UC4
+  usecase "Participar como\nvoluntário" as UC5
+  usecase "Cadastrar e atualizar\nhorta" as UC6
+  usecase "Publicar eventos e\nnecessidades" as UC7
+  usecase "Enviar cadastro\npara aprovação" as UC8
+  usecase "Analisar e moderar\ncadastros" as UC9
+  usecase "Aprovar ou rejeitar\nhorta" as UC10
+  usecase "Obter coordenadas\ngeográficas" as UC11
+}
+
+Visitante --> UC1
+Visitante --> UC2
+Visitante --> UC3
+
+Usuario --> UC2
+Usuario --> UC4
+Usuario --> UC5
+
+Responsavel --> UC6
+Responsavel --> UC7
+Responsavel --> UC8
+
+Administrador --> UC9
+Administrador --> UC10
+
+UC3 .> UC11 : <<include>>
+UC6 .> UC11 : <<include>>
+UC10 .> UC9 : <<extend>>
+
+Mapa --> UC3
+Mapa --> UC11
+
+@enduml

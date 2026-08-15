@@ -1,0 +1,45 @@
+<%= form_with model: garden do |form| %>
+  <% if garden.errors.any? %>
+    <div>
+      <h2>Revise os campos:</h2>
+      <ul><% garden.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
+    </div>
+  <% end %>
+
+  <%= form.label :name, "Nome da horta" %>
+  <%= form.text_field :name, required: true %>
+
+  <%= form.label :description, "Descrição" %>
+  <%= form.text_area :description, rows: 6, required: true %>
+
+  <%= form.label :garden_type, "Tipo" %>
+  <%= form.select :garden_type, Garden.garden_types.keys.map { |type| [type.humanize, type] } %>
+
+  <%= form.label :street, "Rua" %>
+  <%= form.text_field :street, required: true %>
+  <%= form.label :number, "Número" %>
+  <%= form.text_field :number %>
+  <%= form.label :district, "Bairro" %>
+  <%= form.text_field :district, required: true %>
+  <%= form.label :city, "Cidade" %>
+  <%= form.text_field :city, required: true %>
+  <%= form.label :state, "Estado" %>
+  <%= form.text_field :state, required: true %>
+  <%= form.label :postal_code, "CEP" %>
+  <%= form.text_field :postal_code %>
+
+  <%= form.label :contact_name, "Responsável" %>
+  <%= form.text_field :contact_name %>
+  <%= form.label :contact_phone, "Telefone" %>
+  <%= form.telephone_field :contact_phone %>
+  <%= form.label :contact_email, "E-mail" %>
+  <%= form.email_field :contact_email %>
+
+  <%= form.label :photos, "Fotos" %>
+  <%= form.file_field :photos, multiple: true, accept: "image/*" %>
+
+  <%= form.check_box :accepts_volunteers %>
+  <%= form.label :accepts_volunteers, "Aceita voluntários" %>
+
+  <%= form.submit %>
+<% end %>

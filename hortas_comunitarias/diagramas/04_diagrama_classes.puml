@@ -1,0 +1,182 @@
+@startuml
+
+title Diagrama de Classes\nAplicativo de Hortas Comunitárias
+
+skinparam shadowing false
+skinparam linetype ortho
+skinparam classAttributeIconSize 0
+hide empty members
+
+enum UserRole {
+  user
+  garden_manager
+  administrator
+}
+
+enum GardenType {
+  community
+  school
+  family
+}
+
+enum GardenStatus {
+  draft
+  pending_review
+  approved
+  rejected
+  inactive
+}
+
+enum EventStatus {
+  draft
+  published
+  cancelled
+  finished
+}
+
+enum ParticipationStatus {
+  pending
+  confirmed
+  cancelled
+}
+
+enum NeedStatus {
+  open
+  completed
+  cancelled
+}
+
+class User {
+  - id: bigint
+  - name: string
+  - email: string
+  - encrypted_password: string
+  - phone: string
+  - role: UserRole
+  - created_at: datetime
+  - updated_at: datetime
+  --
+  + authenticate(): boolean
+  + updateProfile(): void
+  + administrator(): boolean
+  + gardenManager(): boolean
+}
+
+class Garden {
+  - id: bigint
+  - user_id: bigint
+  - name: string
+  - description: text
+  - garden_type: GardenType
+  - status: GardenStatus
+  - accepts_volunteers: boolean
+  - contact_name: string
+  - contact_phone: string
+  - contact_email: string
+  - created_at: datetime
+  - updated_at: datetime
+  --
+  + submitForReview(): void
+  + approve(): void
+  + reject(): void
+  + deactivate(): void
+  + publiclyVisible(): boolean
+}
+
+class Address {
+  - id: bigint
+  - garden_id: bigint
+  - street: string
+  - number: string
+  - complement: string
+  - district: string
+  - city: string
+  - state: string
+  - postal_code: string
+  - coordinates: geography
+  - created_at: datetime
+  - updated_at: datetime
+  --
+  + fullAddress(): string
+  + geocode(): void
+  + latitude(): decimal
+  + longitude(): decimal
+}
+
+class Event {
+  - id: bigint
+  - garden_id: bigint
+  - title: string
+  - description: text
+  - event_date: date
+  - start_time: time
+  - end_time: time
+  - status: EventStatus
+  - created_at: datetime
+  - updated_at: datetime
+  --
+  + publish(): void
+  + cancel(): void
+  + finish(): void
+  + availableForParticipation(): boolean
+}
+
+class VolunteerParticipation {
+  - id: bigint
+  - user_id: bigint
+  - garden_id: bigint
+  - event_id: bigint
+  - status: ParticipationStatus
+  - observation: text
+  - created_at: datetime
+  - updated_at: datetime
+  --
+  + confirm(): void
+  + cancel(): void
+  + pending(): boolean
+}
+
+class Need {
+  - id: bigint
+  - garden_id: bigint
+  - title: string
+  - description: text
+  - quantity: integer
+  - unit: string
+  - status: NeedStatus
+  - created_at: datetime
+  - updated_at: datetime
+  --
+  + complete(): void
+  + cancel(): void
+  + reopen(): void
+}
+
+User "1" -- "0..*" Garden : responsável por >
+Garden "1" *-- "1" Address : possui >
+Garden "1" *-- "0..*" Event : organiza >
+Garden "1" *-- "0..*" Need : divulga >
+User "1" -- "0..*" VolunteerParticipation : realiza >
+Garden "1" -- "0..*" VolunteerParticipation : recebe >
+Event "0..1" -- "0..*" VolunteerParticipation : possui >
+
+User --> UserRole
+Garden --> GardenType
+Garden --> GardenStatus
+Event --> EventStatus
+VolunteerParticipation --> ParticipationStatus
+Need --> NeedStatus
+
+note right of Address
+  A propriedade coordinates utiliza
+  PostgreSQL/PostGIS no formato
+  geography(Point, 4326).
+end note
+
+note bottom of VolunteerParticipation
+  A participação pode estar vinculada
+  a uma horta, a um evento específico
+  ou aos dois registros.
+end note
+
+@enduml

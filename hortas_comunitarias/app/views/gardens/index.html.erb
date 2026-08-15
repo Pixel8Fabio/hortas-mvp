@@ -1,0 +1,100 @@
+<section class="gardens-page">
+  <div class="container">
+    <header class="gardens-page-header">
+      <div>
+        <span class="eyebrow">Agricultura urbana em Itu</span>
+        <h1>Hortas cadastradas</h1>
+        <p>
+          Conheça hortas comunitárias, escolares e familiares,
+          veja suas localizações e descubra como participar.
+        </p>
+      </div>
+
+      <%= link_to "Cadastrar horta",
+                  new_garden_path,
+                  class: "button button-primary" %>
+    </header>
+
+    <div class="gardens-toolbar">
+      <%= form_with url: gardens_path,
+                    method: :get,
+                    class: "gardens-search" do |form| %>
+
+        <%= form.search_field :query,
+                              value: params[:query],
+                              placeholder: "Buscar por nome ou bairro",
+                              class: "search-input" %>
+
+        <%= form.submit "Buscar",
+                        class: "search-button" %>
+      <% end %>
+
+      <%= link_to "Visualizar mapa",
+                  map_gardens_path,
+                  class: "button button-secondary" %>
+    </div>
+
+    <% if @gardens.any? %>
+      <div class="garden-grid">
+        <% @gardens.each do |garden| %>
+          <article class="garden-card">
+            <div class="garden-card-image">
+              <% if garden.photos.attached? %>
+                <%= image_tag garden.photos.first,
+                              alt: "Imagem da #{garden.name}" %>
+              <% else %>
+                <div class="garden-image-placeholder">
+                  🌿
+                </div>
+              <% end %>
+            </div>
+
+            <div class="garden-card-content">
+              <div class="garden-card-top">
+                <span class="garden-badge">
+                  <%= garden.garden_type.humanize %>
+                </span>
+
+                <% if garden.accepts_volunteers? %>
+                  <span class="volunteer-badge">
+                    Aceita voluntários
+                  </span>
+                <% end %>
+              </div>
+
+              <h2><%= garden.name %></h2>
+
+              <p class="garden-location">
+                📍 <%= garden.district %>, <%= garden.city %>
+              </p>
+
+              <p class="garden-description">
+                <%= truncate(garden.description, length: 150) %>
+              </p>
+
+              <div class="garden-card-footer">
+                <%= link_to "Ver detalhes",
+                            garden_path(garden),
+                            class: "card-link" %>
+              </div>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="empty-state">
+        <span class="empty-state-icon">🌱</span>
+
+        <h2>Nenhuma horta encontrada</h2>
+
+        <p>
+          Ainda não há hortas cadastradas para os critérios informados.
+        </p>
+
+        <%= link_to "Cadastrar a primeira horta",
+                    new_garden_path,
+                    class: "button button-primary" %>
+      </div>
+    <% end %>
+  </div>
+</section>

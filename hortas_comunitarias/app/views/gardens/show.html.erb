@@ -1,0 +1,32 @@
+<article>
+  <h1><%= @garden.name %></h1>
+  <p><%= @garden.description %></p>
+  <p><strong>Endereço:</strong> <%= @garden.full_address %></p>
+  <p><strong>Situação:</strong> <%= @garden.status.humanize %></p>
+
+  <% if @garden.photos.attached? %>
+    <div>
+      <% @garden.photos.each do |photo| %>
+        <%= image_tag photo.variant(resize_to_limit: [900, 600]), alt: "Foto da #{@garden.name}" %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @garden.coordinates %>
+    <div data-controller="map" data-map-gardens-value='<%= [{ id: @garden.id, name: @garden.name, latitude: @garden.latitude, longitude: @garden.longitude, url: garden_path(@garden) }].to_json %>'>
+      <div data-map-target="container" style="height: 360px"></div>
+    </div>
+  <% end %>
+
+  <% if user_signed_in? && (current_user == @garden.user || current_user.admin?) %>
+    <%= link_to "Editar", edit_garden_path(@garden) %>
+    <% if @garden.draft? || @garden.rejected? %>
+      <%= button_to "Enviar para análise", submit_for_review_garden_path(@garden), method: :patch %>
+    <% end %>
+  <% end %>
+
+  <% if current_user&.admin? && @garden.pending_review? %>
+    <%= button_to "Aprovar", approve_garden_path(@garden), method: :patch %>
+    <%= button_to "Rejeitar", reject_garden_path(@garden), method: :patch %>
+  <% end %>
+</article>

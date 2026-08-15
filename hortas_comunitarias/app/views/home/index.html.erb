@@ -1,0 +1,121 @@
+<section class="hero">
+    <div class="container hero-content">
+      <div class="hero-text">
+        <span class="eyebrow">Agricultura urbana e participação social</span>
+
+        <h1>Hortas Comunitárias de Itu</h1>
+
+        <p>
+          Localize hortas comunitárias, escolares e familiares,
+          conheça projetos próximos e participe de ações voluntárias.
+        </p>
+
+        <div class="hero-actions">
+          <%= link_to "Explorar hortas",
+                      gardens_path,
+                      class: "button button-primary" %>
+
+          <%= link_to "Cadastrar horta",
+                      new_garden_path,
+                      class: "button button-secondary" %>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="hero-card">
+          <span class="hero-card-icon">🌿</span>
+          <strong>Conecte-se à agricultura urbana</strong>
+          <p>
+            Descubra iniciativas locais e contribua para uma cidade
+            mais sustentável.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="gardens-section">
+    <div class="container">
+      <div class="section-heading">
+        <div>
+          <span class="eyebrow">Conheça iniciativas locais</span>
+          <h2>Hortas em destaque</h2>
+        </div>
+
+        <%= link_to "Ver todas",
+                    gardens_path,
+                    class: "section-link" %>
+      </div>
+
+      <div class="garden-grid">
+        <article class="garden-card">
+          <div class="garden-card-top">
+            <div class="garden-icon">🌿</div>
+            <span class="garden-badge">Comunitária</span>
+          </div>
+
+          <h3>Horta Vila Martins</h3>
+
+          <p class="garden-location">
+            📍 Bairro Vila Martins
+          </p>
+
+          <p class="garden-description">
+            Iniciativa comunitária voltada ao cultivo de alimentos
+            frescos e à participação dos moradores.
+          </p>
+
+          <div class="garden-footer">
+            <span class="volunteer-status">
+              ✓ Aceita voluntários
+            </span>
+
+            <%= link_to "Ver detalhes", "#", class: "card-link" %>
+          </div>
+        </article>
+
+        <article class="garden-card">
+          <div class="garden-card-top">
+            <div class="garden-icon">🌱</div>
+            <span class="garden-badge garden-badge-school">Escolar</span>
+          </div>
+
+          <h3>Horta Escola Municipal</h3>
+
+          <p class="garden-location">
+            📍 Centro
+          </p>
+
+          <p class="garden-description">
+            Projeto escolar de educação ambiental e produção
+            responsável de alimentos.
+          </p>
+
+          <div class="garden-footer">
+            <span class="project-status">
+              Projeto escolar
+            </span>
+
+            <%= link_to "Ver detalhes", "#", class: "card-link" %>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container cta-content">
+      <div>
+        <span class="eyebrow eyebrow-light">Faça parte</span>
+        <h2>Conhece uma horta comunitária?</h2>
+        <p>
+          Cadastre a iniciativa e ajude mais pessoas a encontrarem
+          projetos de agricultura urbana em Itu.
+        </p>
+      </div>
+
+      <%= link_to "Cadastrar uma horta",
+                  new_garden_path,
+                  class: "button button-light" %>
+    </div>
+  </section>

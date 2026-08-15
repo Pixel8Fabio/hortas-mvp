@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <title><%= content_for(:title) || "Hortas Comunitárias de Itu" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <%= stylesheet_link_tag "application",
+                        "data-turbo-track": "reload" %>
+  </head>
+
+  <body>
+    <header class="site-header" data-controller="navbar">
+      <div class="container header-content">
+        <%= link_to root_path, class: "brand" do %>
+          <span class="brand-icon">🌱</span>
+          <span>Hortas de Itu</span>
+        <% end %>
+
+        <button type="button"
+                class="nav-toggle"
+                aria-label="Abrir menu"
+                aria-expanded="false"
+                data-navbar-target="button"
+                data-action="navbar#toggle">
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+          <span class="nav-toggle-bar"></span>
+        </button>
+
+        <nav class="main-nav" data-navbar-target="menu">
+          <% if user_signed_in? %>
+            <%= link_to "Cadastrar horta", new_garden_path, class: "nav-link" %>
+            <span class="user-name"><%= current_user.email %></span>
+
+            <%= button_to "Sair",
+                          destroy_user_session_path,
+                          method: :delete,
+                          class: "nav-button nav-button-outline" %>
+          <% else %>
+            <%= link_to "Entrar",
+                        new_user_session_path,
+                        class: "nav-link" %>
+
+            <%= link_to "Criar conta",
+                        new_user_registration_path,
+                        class: "nav-button" %>
+          <% end %>
+        </nav>
+      </div>
+    </header>
+
+    <% flash.each do |type, message| %>
+      <p class="flash <%= type %>"><%= message %></p>
+    <% end %>
+
+    <main><%= yield %></main>
+
+    <footer class="site-footer">
+      <div class="container footer-content">
+        <p>Hortas Comunitárias de Itu</p>
+        <p>Projeto de inclusão digital e agricultura urbana.</p>
+      </div>
+    </footer>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  </body>
+</html>

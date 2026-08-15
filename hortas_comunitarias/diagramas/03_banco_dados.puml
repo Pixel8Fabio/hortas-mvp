@@ -1,0 +1,124 @@
+@startuml
+
+hide methods
+hide stereotypes
+skinparam shadowing false
+skinparam linetype ortho
+skinparam entity {
+  BackgroundColor White
+  BorderColor Black
+  FontColor Black
+}
+
+title Modelo Entidade-Relacionamento\nAplicativo de Hortas Comunitárias
+
+entity "USUARIOS" as usuarios {
+  * id : bigint <<PK>>
+  --
+  nome : varchar
+  email : varchar
+  senha_criptografada : varchar
+  telefone : varchar
+  perfil : integer
+  criado_em : datetime
+  atualizado_em : datetime
+}
+
+entity "HORTAS" as hortas {
+  * id : bigint <<PK>>
+  --
+  usuario_id : bigint <<FK>>
+  endereco_id : bigint <<FK>>
+  nome : varchar
+  descricao : text
+  tipo : integer
+  situacao : integer
+  aceita_voluntarios : boolean
+  contato_nome : varchar
+  contato_telefone : varchar
+  contato_email : varchar
+  criado_em : datetime
+  atualizado_em : datetime
+}
+
+entity "ENDERECOS" as enderecos {
+  * id : bigint <<PK>>
+  --
+  logradouro : varchar
+  numero : varchar
+  complemento : varchar
+  bairro : varchar
+  cidade : varchar
+  estado : varchar
+  cep : varchar
+  coordenadas : geography(Point, 4326)
+  criado_em : datetime
+  atualizado_em : datetime
+}
+
+entity "EVENTOS" as eventos {
+  * id : bigint <<PK>>
+  --
+  horta_id : bigint <<FK>>
+  titulo : varchar
+  descricao : text
+  data_evento : date
+  horario_inicio : time
+  horario_fim : time
+  situacao : integer
+  criado_em : datetime
+  atualizado_em : datetime
+}
+
+entity "PARTICIPACOES" as participacoes {
+  * id : bigint <<PK>>
+  --
+  usuario_id : bigint <<FK>>
+  evento_id : bigint <<FK>>
+  horta_id : bigint <<FK>>
+  situacao : integer
+  observacao : text
+  criado_em : datetime
+  atualizado_em : datetime
+}
+
+entity "NECESSIDADES" as necessidades {
+  * id : bigint <<PK>>
+  --
+  horta_id : bigint <<FK>>
+  titulo : varchar
+  descricao : text
+  quantidade : integer
+  unidade : varchar
+  situacao : integer
+  criado_em : datetime
+  atualizado_em : datetime
+}
+
+entity "FOTOGRAFIAS" as fotografias {
+  * id : bigint <<PK>>
+  --
+  horta_id : bigint <<FK>>
+  arquivo : varchar
+  legenda : varchar
+  principal : boolean
+  criado_em : datetime
+  atualizado_em : datetime
+}
+
+usuarios ||--o{ hortas : "responsável por"
+enderecos ||--|| hortas : "localiza"
+hortas ||--o{ eventos : "possui"
+usuarios ||--o{ participacoes : "realiza"
+eventos ||--o{ participacoes : "recebe"
+hortas ||--o{ participacoes : "vincula"
+hortas ||--o{ necessidades : "divulga"
+hortas ||--o{ fotografias : "possui"
+
+note right of enderecos
+  O campo coordenadas utiliza
+  PostGIS no formato:
+  geography(Point, 4326)
+end note
+
+@enduml
