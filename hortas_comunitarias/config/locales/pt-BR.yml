@@ -1,0 +1,70 @@
+pt-BR:
+  errors:
+    format: "%{attribute} %{message}"
+    messages:
+      accepted: "precisa ser aceito(a)"
+      blank: "não pode ficar em branco"
+      confirmation: "não é igual a %{attribute}"
+      empty: "não pode ficar vazio(a)"
+      equal_to: "precisa ser igual a %{count}"
+      even: "precisa ser par"
+      exclusion: "não está disponível"
+      greater_than: "precisa ser maior que %{count}"
+      greater_than_or_equal_to: "precisa ser maior ou igual a %{count}"
+      inclusion: "não está incluído(a) na lista"
+      invalid: "não é válido(a)"
+      less_than: "precisa ser menor que %{count}"
+      less_than_or_equal_to: "precisa ser menor ou igual a %{count}"
+      model_invalid: "Validação falhou: %{errors}"
+      not_a_number: "não é um número"
+      not_an_integer: "precisa ser um número inteiro"
+      odd: "precisa ser ímpar"
+      other_than: "precisa ser diferente de %{count}"
+      present: "precisa ficar em branco"
+      required: "precisa existir"
+      taken: "já está em uso"
+      too_long:
+        one: "é muito longo(a) (máximo: 1 caractere)"
+        other: "é muito longo(a) (máximo: %{count} caracteres)"
+      too_short:
+        one: "é muito curto(a) (mínimo: 1 caractere)"
+        other: "é muito curto(a) (mínimo: %{count} caracteres)"
+      wrong_length:
+        one: "não possui o tamanho esperado (1 caractere)"
+        other: "não possui o tamanho esperado (%{count} caracteres)"
+
+  activerecord:
+    errors:
+      messages:
+        record_invalid: "A validação falhou: %{errors}"
+        restrict_dependent_destroy:
+          has_one: "Não é possível excluir o registro pois existe um(a) %{record} dependente"
+          has_many: "Não é possível excluir o registro pois existem %{record} dependentes"
+    attributes:
+      user:
+        name: "Nome"
+        email: "E-mail"
+        password: "Senha"
+        password_confirmation: "Confirmação de senha"
+        phone: "Telefone"
+      garden:
+        name: "Nome"
+        description: "Descrição"
+        garden_type: "Tipo"
+        street: "Rua"
+        number: "Número"
+        district: "Bairro"
+        city: "Cidade"
+        state: "Estado"
+        postal_code: "CEP"
+        contact_name: "Responsável"
+        contact_phone: "Telefone"
+        contact_email: "E-mail"
+        photos: "Fotos"
+        accepts_volunteers: "Aceita voluntários"
+
+  helpers:
+    submit:
+      create: "Criar %{model}"
+      update: "Atualizar %{model}"
+      submit: "Salvar %{model}"

@@ -1,9 +1,23 @@
 class Garden < ApplicationRecord
+  GARDEN_TYPE_LABELS = {
+    "community" => "Comunitária",
+    "school" => "Escolar",
+    "family" => "Familiar"
+  }.freeze
+
   belongs_to :user
   has_many_attached :photos
 
   enum :garden_type, { community: 0, school: 1, family: 2 }
   enum :status, { draft: 0, pending_review: 1, approved: 2, rejected: 3, inactive: 4 }
+
+  def self.garden_type_options
+    garden_types.keys.map { |type| [GARDEN_TYPE_LABELS.fetch(type, type.humanize), type] }
+  end
+
+  def garden_type_label
+    GARDEN_TYPE_LABELS.fetch(garden_type, garden_type.humanize)
+  end
 
   validates :name, :description, :street, :district, :city, :state, presence: true
   validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }, allow_blank: true

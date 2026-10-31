@@ -1,45 +1,88 @@
 <%= form_with model: garden do |form| %>
   <% if garden.errors.any? %>
-    <div>
-      <h2>Revise os campos:</h2>
-      <ul><% garden.errors.full_messages.each do |message| %><li><%= message %></li><% end %></ul>
+    <div class="form-errors">
+      <h2><%= pluralize(garden.errors.count, "erro") %> impediu o salvamento desta horta:</h2>
+      <ul>
+        <% garden.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
     </div>
   <% end %>
 
-  <%= form.label :name, "Nome da horta" %>
-  <%= form.text_field :name, required: true %>
+  <div class="form-grid">
+    <div class="field field-full">
+      <%= form.label :name, "Nome da horta" %>
+      <%= form.text_field :name, required: true, class: "form-input" %>
+    </div>
 
-  <%= form.label :description, "Descrição" %>
-  <%= form.text_area :description, rows: 6, required: true %>
+    <div class="field field-full">
+      <%= form.label :description, "Descrição" %>
+      <%= form.text_area :description, rows: 6, required: true, class: "form-textarea" %>
+    </div>
 
-  <%= form.label :garden_type, "Tipo" %>
-  <%= form.select :garden_type, Garden.garden_types.keys.map { |type| [type.humanize, type] } %>
+    <div class="field">
+      <%= form.label :garden_type, "Tipo" %>
+      <%= form.select :garden_type, Garden.garden_type_options, {}, class: "form-select" %>
+    </div>
 
-  <%= form.label :street, "Rua" %>
-  <%= form.text_field :street, required: true %>
-  <%= form.label :number, "Número" %>
-  <%= form.text_field :number %>
-  <%= form.label :district, "Bairro" %>
-  <%= form.text_field :district, required: true %>
-  <%= form.label :city, "Cidade" %>
-  <%= form.text_field :city, required: true %>
-  <%= form.label :state, "Estado" %>
-  <%= form.text_field :state, required: true %>
-  <%= form.label :postal_code, "CEP" %>
-  <%= form.text_field :postal_code %>
+    <div class="field">
+      <%= form.label :street, "Rua" %>
+      <%= form.text_field :street, required: true, class: "form-input" %>
+    </div>
 
-  <%= form.label :contact_name, "Responsável" %>
-  <%= form.text_field :contact_name %>
-  <%= form.label :contact_phone, "Telefone" %>
-  <%= form.telephone_field :contact_phone %>
-  <%= form.label :contact_email, "E-mail" %>
-  <%= form.email_field :contact_email %>
+    <div class="field">
+      <%= form.label :number, "Número" %>
+      <%= form.text_field :number, class: "form-input" %>
+    </div>
 
-  <%= form.label :photos, "Fotos" %>
-  <%= form.file_field :photos, multiple: true, accept: "image/*" %>
+    <div class="field">
+      <%= form.label :district, "Bairro" %>
+      <%= form.text_field :district, required: true, class: "form-input" %>
+    </div>
 
-  <%= form.check_box :accepts_volunteers %>
-  <%= form.label :accepts_volunteers, "Aceita voluntários" %>
+    <div class="field">
+      <%= form.label :city, "Cidade" %>
+      <%= form.text_field :city, required: true, class: "form-input" %>
+    </div>
 
-  <%= form.submit %>
+    <div class="field">
+      <%= form.label :state, "Estado" %>
+      <%= form.text_field :state, required: true, class: "form-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :postal_code, "CEP" %>
+      <%= form.text_field :postal_code, class: "form-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :contact_name, "Responsável" %>
+      <%= form.text_field :contact_name, class: "form-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :contact_phone, "Telefone" %>
+      <%= form.telephone_field :contact_phone, class: "form-input" %>
+    </div>
+
+    <div class="field">
+      <%= form.label :contact_email, "E-mail" %>
+      <%= form.email_field :contact_email, class: "form-input" %>
+    </div>
+
+    <div class="field field-full">
+      <%= form.label :photos, "Fotos" %>
+      <%= form.file_field :photos, multiple: true, accept: "image/*", class: "form-file" %>
+    </div>
+
+    <div class="field field-full checkbox-field">
+      <%= form.check_box :accepts_volunteers %>
+      <%= form.label :accepts_volunteers, "Aceita voluntários" %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= form.submit garden.new_record? ? "Cadastrar horta" : "Salvar alterações", class: "button button-primary" %>
+  </div>
 <% end %>

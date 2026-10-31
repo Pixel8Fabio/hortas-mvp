@@ -1,2 +1,16 @@
-<h1>Cadastrar horta</h1>
-<%= render "form", garden: @garden %>
+<section class="form-page">
+  <div class="container">
+    <header class="form-page-header">
+      <span class="eyebrow">Agricultura urbana em Itu</span>
+      <h1>Cadastrar horta</h1>
+      <p>
+        Preencha os dados abaixo para cadastrar uma nova horta
+        comunitária, escolar ou familiar.
+      </p>
+    </header>
+
+    <div class="form-card">
+      <%= render "form", garden: @garden %>
+    </div>
+  </div>
+</section>
